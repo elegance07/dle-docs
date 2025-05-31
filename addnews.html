@@ -8,6 +8,546 @@
 <body>
     <h1>addnews.tpl</h1>
     <p>Yeni makale ekleme formunun şablonu.</p>
-    <pre><code>// Buraya addnews.tpl ile ilgili örnek tpl kodları eklenebilir</code></pre>
+    <pre><code><h1>Anasayfa</h1>
+
+<div class="template-info">
+    <div class="intro-box">
+        <p>Bu bölümün görüntülenmesi <code>main.tpl</code> dosyasında yapılandırılır. Motorun diğer tüm bileşenlerinin bağlandığı Ana Sayfa şablonu burada özelleştirilir. HTML bilgisi olmadan bu bölümü düzenlemek önerilmez, çünkü form aracılığıyla komut dosyasına aktarılan alan adları kullanılır. Başka bir deyişle, metni istediğiniz gibi düzenleyebilirsiniz, ancak alanların adlarını değiştirmeyin, bu son derece önemlidir.</p>
+    </div>
+    
+    <h2>Ana Şablon Etiketleri</h2>
+    <div class="table-responsive">
+        <table class="template-tags-table">
+            <thead>
+                <tr>
+                    <th>Etiket</th>
+                    <th>Açıklama</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>{headers}</code></td>
+                    <td>Sayfada oluşturulan meta etiketlerini görüntüler: başlık, anahtar kelimeler, açıklama. Ve gerekli tüm komut dosyalarını bağlar. Şablonda <code>&lt;head&gt;</code> etiketleri arasına yerleştirilir. Bu etiket şablonda gereklidir.</td>
+                </tr>
+                <tr>
+                    <td><code>{jsfiles}</code></td>
+                    <td>DLE'nin şablonun belirli bir alanında kullandığı tüm JS komut dosyalarını gösterir. Bu etiket sayesinde örneğin sayfaların yüklenmesini ve oluşturulmasını hızlandırmak için tüm JS komut dosyalarını sayfanın altına aktarabilirsiniz. Bu etiket isteğe bağlıdır ve şablonda yoksa, daha önce olduğu gibi tüm komut dosyaları <code>{headers}</code> etiketine bağlanacaktır. Dikkat! Komut dosyası yerleştirmeyi taşırsanız, <code>{AJAX}</code> etiketinin de <code>{jsfiles}</code> etiketinin altına yerleştirilmesi gerektiğini unutmayın. Ayrıca, örneğin Jquery kitaplığını kullanıyorlarsa, şablondaki tüm üçüncü taraf komut dosyalarının çalışmasını da göz önünde bulundurmalısınız. Tüm komut dosyaları yerleştirilene kadar çalışmamalıdırlar. JS komut dosyalarıyla çalışma deneyimine sahip deneyimli webmasterlar için tasarlandığından, başlangıç seviyesindeki kullanıcıların bu etiketi kullanmamasını önemle tavsiye ederiz.</td>
+                </tr>
+                <tr>
+                    <td><code>{THEME}</code></td>
+                    <td>Seçilen şablona giden yol.</td>
+                </tr>
+                <tr>
+                    <td><code>{login}</code></td>
+                    <td>Kullanıcı girişi ve kayıt paneli.</td>
+                </tr>
+                <tr>
+                    <td><code>{vote}</code></td>
+                    <td>Web sitesinde oylama.</td>
+                </tr>
+                <tr>
+                    <td><code>{changeskin}</code></td>
+                    <td>Web sitesi temasını değiştirme formu.</td>
+                </tr>
+                <tr>
+                    <td><code>{calendar}</code></td>
+                    <td>Takvim modülü.</td>
+                </tr>
+                <tr>
+                    <td><code>{topnews}</code></td>
+                    <td>Son ayda eklenmiş en yüksek puanlı makaleleri görüntüler.</td>
+                </tr>
+                <tr>
+                    <td><code>{archives}</code></td>
+                    <td>Arşivleri görüntüler.</td>
+                </tr>
+                <tr>
+                    <td><code>{info}</code></td>
+                    <td>Gerekirse servis bilgilerini görüntüler. Etiket şablonda gereklidir.</td>
+                </tr>
+                <tr>
+                    <td><code>{content}</code></td>
+                    <td>Web sitesi içeriğinin kendisini görüntüler: haberler, geri bildirim, kayıt vb., yani ana bloktur. Bu etiket, sitenin gerekli özelliklerine bağlı olarak nadir durumlar dışında şablonda gereklidir.</td>
+                </tr>
+                <tr>
+                    <td><code>{custom}</code></td>
+                    <td>"Sayfalarda haber görüntüleme" bölümüne bakın.</td>
+                </tr>
+                <tr>
+                    <td><code>{AJAX}</code></td>
+                    <td>DLE ve AJAX için gerekli tüm komut dosyalarını bağlar. Bağlantı gereklidir ve <code>&lt;body&gt;</code> etiketinden hemen sonra, sayfanın en üstüne yerleştirilmesi önerilir. Bu etiket şablonda gereklidir.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <h2>Koşullu Etiketler</h2>
+    <div class="table-responsive">
+        <table class="template-tags-table">
+            <thead>
+                <tr>
+                    <th>Etiket</th>
+                    <th>Açıklama</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>[available=section]text[/available]</code></td>
+                    <td>"Sayfalarda haber görüntüleme" bölümüne bakın.</td>
+                </tr>
+                <tr>
+                    <td><code>[group=X]text[/group]</code></td>
+                    <td>Belirli bir kullanıcı grubu için metin görüntüler. X, virgülle ayrılmış kullanıcı grupları ID'lerinin bir listesidir.</td>
+                </tr>
+                <tr>
+                    <td><code>[category=X]text[/category]</code></td>
+                    <td>Kullanıcı X kategorisindeyken metin görüntülemek için tasarlanmıştır. X, kategorinizin ID'sidir. Virgülle ayrılmış kategorileri belirtmeye izin verilir.</td>
+                </tr>
+                <tr>
+                    <td><code>[not-category=X]text[/not-category]</code></td>
+                    <td>Kullanıcı X kategorisi dışında herhangi bir yerdeyken metin görüntülemek için tasarlanmıştır. X, aramanızın ID'sidir. Virgülle ayrılmış kategorileri belirtmeye izin verilir.</td>
+                </tr>
+                <tr>
+                    <td><code>[not-group=X]text[/not-group]</code></td>
+                    <td>Belirtilen dışında herhangi bir kullanıcı grubu için metin görüntüler. X, bilgilerin görüntülenmeyeceği kullanıcı grupları ID'lerinin virgülle ayrılmış bir listesidir.</td>
+                </tr>
+                <tr>
+                    <td><code>[page-count=1,2,3] text [/page-count]</code></td>
+                    <td>Web sitesinin hangi bölümünde olduğuna bakılmaksızın, kullanıcı haber dolaşımının belirli bir sayfasındaysa, kapsanan metni görüntüler; burada 1,2,3 dolaşım sayfası numaralarıdır.</td>
+                </tr>
+                <tr>
+                    <td><code>[not-page-count=1,2,3] text [/not-page-count]</code></td>
+                    <td>Belirtilenler dışındaki herhangi bir sayfada kapsanan metni görüntüler.</td>
+                </tr>
+                <tr>
+                    <td><code>[news=1,2,3] text [/news]</code></td>
+                    <td>Kullanıcı etikette belirtilen makalenin tam sürümünü görüntülüyorsa, kapsanan metni görüntüler; burada 1,2,3 makale ID'leridir.</td>
+                </tr>
+                <tr>
+                    <td><code>[not-news=1,2,3] text [/not-news]</code></td>
+                    <td>Etikette belirtilen haber sayfaları dışındaki herhangi bir sayfada metin görüntüler.</td>
+                </tr>
+                <tr>
+                    <td><code>[tags=tag1,tag2,tag3] text [/tags]</code></td>
+                    <td>Bir ziyaretçi etiket bulutundan listelenmiş anahtar kelimelerle sayfayı görüntülediğinde, kapsanan metni görüntüler; burada tag1, tag2, tag3 etiket bulutundan anahtar kelimelerdir.</td>
+                </tr>
+                <tr>
+                    <td><code>[not-tags=tag1,tag2,tag3] text [/not-tags]</code></td>
+                    <td>Belirtilenler dışındaki herhangi bir sayfada metin görüntüler.</td>
+                </tr>
+                <tr>
+                    <td><code>[related-news] {related-news} [/related-news]</code></td>
+                    <td>Tam makaleyi görüntülerken ilgili haberler bloğunu görüntüler.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <h2>Sosyal Medya Etiketleri</h2>
+    <div class="table-responsive">
+        <table class="template-tags-table">
+            <thead>
+                <tr>
+                    <th>Etiket</th>
+                    <th>Açıklama</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>[vk] text [/vk]</code></td>
+                    <td>VK ağını kullanarak yetkilendirme etkinleştirilmişse, kapsanan metni görüntüler.</td>
+                </tr>
+                <tr>
+                    <td><code>{vk_url}</code></td>
+                    <td>VK'da oturum açmak için URL bağlantısını görüntüler.</td>
+                </tr>
+                <tr>
+                    <td><code>[odnoklassniki] text [/odnoklassniki]</code></td>
+                    <td>Odnoklassniki ağını kullanarak yetkilendirme etkinleştirilmişse, kapsanan metni görüntüler.</td>
+                </tr>
+                <tr>
+                    <td><code>{odnoklassniki_url}</code></td>
+                    <td>Odnoklassniki'de oturum açmak için URL bağlantısını görüntüler.</td>
+                </tr>
+                <tr>
+                    <td><code>[facebook] text [/facebook]</code></td>
+                    <td>Facebook kullanarak yetkilendirme etkinleştirilmişse, kapsanan metni görüntüler.</td>
+                </tr>
+                <tr>
+                    <td><code>{facebook_url}</code></td>
+                    <td>Facebook'ta oturum açmak için URL bağlantısını görüntüler.</td>
+                </tr>
+                <tr>
+                    <td><code>[google] text [/google]</code></td>
+                    <td>Google kullanarak yetkilendirme etkinleştirilmişse, kapsanan metni görüntüler.</td>
+                </tr>
+                <tr>
+                    <td><code>{google_url}</code></td>
+                    <td>Google'da oturum açmak için URL bağlantısını görüntüler.</td>
+                </tr>
+                <tr>
+                    <td><code>[mailru] text [/mailru]</code></td>
+                    <td>Mail.ru kullanarak yetkilendirme etkinleştirilmişse, kapsanan metni görüntüler.</td>
+                </tr>
+                <tr>
+                    <td><code>{mailru_url}</code></td>
+                    <td>Mail.ru'da oturum açmak için URL bağlantısını görüntüler.</td>
+                </tr>
+                <tr>
+                    <td><code>[yandex] text [/yandex]</code></td>
+                    <td>Yandex kullanarak yetkilendirme etkinleştirilmişse, kapsanan metni görüntüler.</td>
+                </tr>
+                <tr>
+                    <td><code>{yandex_url}</code></td>
+                    <td>Yandex'te oturum açmak için URL bağlantısını görüntüler.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <h2>Kategori ve Sayfa Etiketleri</h2>
+    <div class="table-responsive">
+        <table class="template-tags-table">
+            <thead>
+                <tr>
+                    <th>Etiket</th>
+                    <th>Açıklama</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>{catmenu}</code></td>
+                    <td>Sitenin kategorilerinin menüsünü görüntüler. Menünün tasarımı categorymenu.tpl şablonundadır.</td>
+                </tr>
+                <tr>
+                    <td><code>{catnewscount id="X"}</code></td>
+                    <td>Belirli bir kategori içindeki makalelerin sayısını görüntüler, burada X gerekli kategorinin ID'sini belirtir.</td>
+                </tr>
+                <tr>
+                    <td><code>{category-id}</code></td>
+                    <td>Ziyaretçi tarafından görüntülenen kategorinin ID'sini görüntüler. Bu etiket, sitede menü organize ederken ve makalelerin görüntüleme şablonlarını düzenlerken herhangi bir CSS sınıfını veya şablon dosyalarının adlarını hızla yeniden atamak zorunda olduğunuzda yararlı olacaktır.</td>
+                </tr>
+                <tr>
+                    <td><code>{category-title}</code></td>
+                    <td>Ziyaretçi tarafından görüntülenen kategorinin adını görüntüler. Bu etiket, görüntülemekte olduğunuz kategorinin adını görüntülemeniz gerektiğinde yararlı olacaktır.</td>
+                </tr>
+                <tr>
+                    <td><code>{category-description}</code></td>
+                    <td>Kullanıcı kategoriyi görüntülediğinde sitede kategori açıklamasını görüntüler. Ayrıca tam açıklamaları görüntülerken de kullanılabilir.</td>
+                </tr>
+                <tr>
+                    <td><code>{page-title}</code></td>
+                    <td>"Başlıklar, açıklamalar, meta etiketler" bölümünde sayfa için belirtilen başlığı görüntüler.</td>
+                </tr>
+                <tr>
+                    <td><code>{page-description}</code></td>
+                    <td>"Başlıklar, açıklamalar, meta etiketler" bölümünde sayfa için belirtilen açıklamayı görüntüler.</td>
+                </tr>
+                <tr>
+                    <td><code>[page-title] text [/page-title]</code></td>
+                    <td>Görüntülenen sayfa için "Başlıklar, açıklamalar, meta etiketler" bölümünde sayfa başlığı belirtilmişse, kapsanan metni görüntüler.</td>
+                </tr>
+                <tr>
+                    <td><code>[not-page-title] text [/not-page-title]</code></td>
+                    <td>Görüntülenen sayfa için "Başlıklar, açıklamalar, meta etiketler" bölümünde sayfa başlığı belirtilmemişse, kapsanan metni görüntüler.</td>
+                </tr>
+                <tr>
+                    <td><code>[page-description] text [/page-description]</code></td>
+                    <td>Görüntülenen sayfa için "Başlıklar, açıklamalar, meta etiketler" bölümünde sayfa açıklaması belirtilmişse, kapsanan metni görüntüler.</td>
+                </tr>
+                <tr>
+                    <td><code>[not-page-description] text [/not-page-description]</code></td>
+                    <td>Görüntülenen sayfanın açıklaması belirtilmediyse, kapsanan metin görüntülenir.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <h2>Dolaşım Etiketleri</h2>
+    <div class="table-responsive">
+        <table class="template-tags-table">
+            <thead>
+                <tr>
+                    <th>Etiket</th>
+                    <th>Açıklama</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>[navigation] text [/navigation]</code></td>
+                    <td>Haber dolaşımı varsa sayfalarda metin görüntüler.</td>
+                </tr>
+                <tr>
+                    <td><code>[not-navigation] text [/not-navigation]</code></td>
+                    <td>Haber dolaşımı yoksa sayfalarda metin görüntüler.</td>
+                </tr>
+                <tr>
+                    <td><code>{navigation}</code></td>
+                    <td>Sayfa dolaşım bölümünü görüntüler.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <h2>Diğer Etiketler</h2>
+    <div class="table-responsive">
+        <table class="template-tags-table">
+            <thead>
+                <tr>
+                    <th>Etiket</th>
+                    <th>Açıklama</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>{cloudstag}</code></td>
+                    <td>Bir kullanıcı etiket bulutundan belirli bir anahtar kelimeye sahip gönderilere sahip site kategorisini görüntülüyorsa, etiket bulutundan anahtar kelimeyi gösterir.</td>
+                </tr>
+                <tr>
+                    <td><code>{banner_name}</code></td>
+                    <td>Bu etiket, web sitesinde reklam bilgilerini görüntülemek için kullanılır. Banner için ad, Yönetim Panelindeki özel bir modülde ayarlanır.</td>
+                </tr>
+                <tr>
+                    <td><code>{inform_name}</code></td>
+                    <td>Bu etiket, RSS bilgilendirici ve diğer web sitelerinden haberler görüntülemek için kullanılır. Etiket için isim ve tüm ayarlar Yönetim Panelinde ayarlanır.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <h2>Ekstra Alan Etiketleri</h2>
+    <div class="table-responsive">
+        <table class="template-tags-table">
+            <thead>
+                <tr>
+                    <th>Etiket</th>
+                    <th>Açıklama</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>[xfvalue_x]</code></td>
+                    <td>Ekstra alan "x" değeri, burada "x" ekstra alanın adıdır.</td>
+                </tr>
+                <tr>
+                    <td><code>[xfvalue_X limit="X2"]</code></td>
+                    <td>HTML formatlaması olmadan makale açıklama metnini X2 sayısı ile sınırlı sayıda sembolle görüntüler. Metin son mantıksal kelimeyle sınırlıdır. Örneğin, [xfvalue_test limit="50"] test adlı ekstra alan değerinin ilk 50 sembolünü gösterir.</td>
+                </tr>
+                <tr>
+                    <td><code>[xfgiven_x] [xfvalue_x] [/xfgiven_x]</code></td>
+                    <td>Boş değilse ekstra alan "x"i görüntüler.</td>
+                </tr>
+                <tr>
+                    <td><code>[xfnotgiven_X] [/xfnotgiven_X]</code></td>
+                    <td>Makaleyi yayınlarken ekstra alan ayarlanmamışsa, kapsanan metni görüntüler, burada "x" ekstra alanın adıdır.</td>
+                </tr>
+                <tr>
+                    <td><code>[ifxfvalue tagname="tagvalue"] Text [/ifxfvalue]</code></td>
+                    <td>Ekstra alan değeri belirtilen değerle eşleşirse, kapsanan metni görüntüler; burada tagname ekstra alanın adı ve tagvalue değeridir. Tagvalue değerleri virgülle ayrılarak listelenebilir.</td>
+                </tr>
+                <tr>
+                    <td><code>[ifxfvalue tagname!="tagvalue"] Text [/ifxfvalue]</code></td>
+                    <td>Ekstra alan değeri belirtilen değerle eşleşmezse, aralarındaki metin görüntülenir; burada tagname ekstra alanın adı ve tagvalue değeridir. Tagvalue değerleri virgülle ayrılarak listelenebilir.</td>
+                </tr>
+                <tr>
+                    <td colspan="2"><strong>Resim Alanları İçin Özel Etiketler</strong></td>
+                </tr>
+                <tr>
+                    <td><code>[xfvalue_thumb_url_X]</code></td>
+                    <td>Bu etiket yalnızca ekstra alan "Resim" türüne sahipse kullanılabilir. Etiket yalnızca yüklenen resmin küçük resimleri için URL'yi görüntüler, burada "x" ekstra alanın adıdır.</td>
+                </tr>
+                <tr>
+                    <td><code>[xfvalue_image_url_X]</code></td>
+                    <td>Bu etiket yalnızca ekstra alan "Resim" türüne sahipse kullanılabilir. Etiket yalnızca yüklenen resmin tam boyutlu resmi için URL'yi görüntüler, burada "x" ekstra alanın adıdır.</td>
+                </tr>
+                <tr>
+                    <td><code>[xfvalue_image_description_X]</code></td>
+                    <td>Bu etiket yalnızca ekstra alan "Resim" türüne sahipse kullanılabilir. Etiket yalnızca yüklenen resmin resmi için açıklamayı görüntüler, burada "x" ekstra alanın adıdır.</td>
+                </tr>
+                <tr>
+                    <td colspan="2"><strong>Resim Galerisi İçin Özel Etiketler</strong></td>
+                </tr>
+                <tr>
+                    <td><code>[xfvalue_X image="Nr"]</code></td>
+                    <td>"Resim Galerisi" türündeki ekstra alanlar için yüklenen resimleri ayrı ayrı görüntüler, burada "X" ekstra alanın adıdır ve "Nr" galeriden resmin numarasıdır. Örneğin, [xfvalue_test image="2"] uygularsanız, "test" adlı bir ek alana yüklenen resim numarası iki görüntülenecektir.</td>
+                </tr>
+                <tr>
+                    <td><code>[xfvalue_X image-url="Nr"]</code></td>
+                    <td>"Resim Galerisi" türündeki ekstra alanlar için yüklenen tam resimler için URL'yi ayrı ayrı görüntüler, burada "X" ekstra alanın adıdır ve "Nr" galeriden resmin numarasıdır.</td>
+                </tr>
+                <tr>
+                    <td><code>[xfvalue_X image-thumb-url="Nr"]</code></td>
+                    <td>"Resim Galerisi" türündeki ekstra alanlar için yüklenen resimler için küçük resim URL'sini ayrı ayrı görüntüler, burada "X" ekstra alanın adıdır ve "Nr" galeriden resmin numarasıdır.</td>
+                </tr>
+                <tr>
+                    <td><code>[xfvalue_X image-description="Nr"]</code></td>
+                    <td>"Resim Galerisi" türündeki ekstra alanlar için yüklenen resimler için Açıklamayı ayrı ayrı görüntüler, burada "X" ekstra alanın adıdır ve "Nr" galeriden resmin numarasıdır.</td>
+                </tr>
+                <tr>
+                    <td><code>[xfgiven_X image="NR"] text [/xfgiven_X image="NR"]</code></td>
+                    <td>Belirtilen numaraya sahip bir resim varsa ve ek bir alana yüklendiyse, içlerinde bulunan metni görüntüler, burada X ek alanın adıdır ve NR resim numarasıdır.</td>
+                </tr>
+                <tr>
+                    <td><code>[xfnotgiven_X image="NR"] Text [/xfnotgiven_X image="NR"]</code></td>
+                    <td>Belirtilen numaraya sahip resim ek alanda eksikse, içlerinde bulunan metni görüntüler, burada X ek alanın adıdır ve NR resim numarasıdır.</td>
+                </tr>
+                <tr>
+                    <td colspan="2"><strong>Video Çalma Listesi İçin Özel Etiketler</strong></td>
+                </tr>
+                <tr>
+                    <td><code>[xfvalue_X video="Nr"]</code></td>
+                    <td>Seçilen numarayla ayrı olarak "Video çalma listesi" türündeki bir ek alan için yüklenen videoları görüntüler. Burada "X" ek alanın adıdır ve "Nr", çalma listesinden videonun numarasıdır.</td>
+                </tr>
+                <tr>
+                    <td><code>[xfvalue_X video-url="Nr"]</code></td>
+                    <td>"Video çalma listesi" türündeki bir ek alan için yüklenen URL'leri ayrı ayrı görüntüler. Burada "X" ek alanın adıdır ve "Nr", çalma listesinden videonun numarasıdır.</td>
+                </tr>
+                <tr>
+                    <td><code>[xfvalue_X video-description="Nr"]</code></td>
+                    <td>"Video çalma listesi" türündeki bir ek alan için yüklenen video açıklamalarını ayrı ayrı görüntüler. Burada "X" ek alanın adıdır ve "Nr", çalma listesinden videonun numarasıdır.</td>
+                </tr>
+                <tr>
+                    <td><code>[xfgiven_X video="Nr"] Text [/xfgiven_X video="Nr"]</code></td>
+                    <td>Belirtilen numaraya sahip video varsa ve bir ek alana yüklendiyse, içlerinde bulunan metni görüntüler; burada X ek alanın adıdır ve Nr video numarasıdır.</td>
+                </tr>
+                <tr>
+                    <td><code>[xfnotgiven_X video="Nr"] Text [/xfnotgiven_X video="Nr"]</code></td>
+                    <td>Belirtilen numaraya sahip video ek alanda yoksa, içlerinde bulunan metni görüntüler; burada X ek alanın adıdır ve NR video numarasıdır.</td>
+                </tr>
+                <tr>
+                    <td colspan="2"><strong>Ses Çalma Listesi İçin Özel Etiketler</strong></td>
+                </tr>
+                <tr>
+                    <td><code>[xfvalue_X audio="Nr"]</code></td>
+                    <td>"Ses Çalma Listesi" türündeki bir ek alan için ayrı ayrı yüklenen sesi görüntüler. Burada "X" ek alanın adıdır ve "Nr", çalma listesinden ses dosyasının numarasıdır.</td>
+                </tr>
+                <tr>
+                    <td><code>[xfvalue_X audio-url="Nr"]</code></td>
+                    <td>"Ses Çalma Listesi" türündeki bir ek alan için yüklenen URL'leri ayrı ayrı görüntüler. Burada "X" ek alanın adıdır ve "Nr", çalma listesinden ses dosyasının numarasıdır.</td>
+                </tr>
+                <tr>
+                    <td><code>[xfvalue_X audio-description="Nr"]</code></td>
+                    <td>"Ses Çalma Listesi" türündeki bir ek alan için yüklenen ses dosyası açıklamalarını ayrı ayrı görüntüler. Burada "X" ek alanın adıdır ve "Nr", çalma listesinden ses dosyasının numarasıdır.</td>
+                </tr>
+                <tr>
+                    <td><code>[xfgiven_X audio="Nr"] Text [/xfgiven_X audio="Nr"]</code></td>
+                    <td>Belirtilen numaraya sahip ses varsa ve bir ek alana yüklendiyse, içlerinde bulunan metni görüntüler; burada X ek alanın adıdır ve Nr ses dosyasının numarasıdır.</td>
+                </tr>
+                <tr>
+                    <td><code>[xfnotgiven_X audio="Nr"] Text [/xfnotgiven_X audio="Nr"]</code></td>
+                    <td>Belirtilen numaraya sahip ses ek alanda eksikse, içlerinde bulunan metni görüntüler; burada X ek alanın adıdır ve Nr ses dosyasının numarasıdır.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    .template-info {
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+    
+    .intro-box {
+        background-color: #f8f9fa;
+        border-left: 4px solid #3498db;
+        padding: 15px;
+        margin-bottom: 30px;
+        border-radius: 0 4px 4px 0;
+    }
+    
+    .intro-box p {
+        line-height: 1.6;
+        margin: 0;
+    }
+    
+    .template-info h2 {
+        color: #2c3e50;
+        margin: 25px 0 15px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .table-responsive {
+        overflow-x: auto;
+        margin-bottom: 30px;
+    }
+    
+    .template-tags-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+        table-layout: fixed; /* Sabit tablo düzeni */
+    }
+    
+    .template-tags-table th,
+    .template-tags-table td {
+        padding: 12px 15px;
+        text-align: left;
+        border: 1px solid #ddd;
+        vertical-align: top;
+        word-wrap: break-word; /* Uzun kelimelerin kırılmasını sağlar */
+    }
+    
+    /* Etiket sütunu genişliği */
+    .template-tags-table th:first-child,
+    .template-tags-table td:first-child {
+        width: 40%; /* Etiket sütunu genişliği */
+        min-width: 250px; /* Minimum genişlik */
+    }
+    
+    /* Açıklama sütunu genişliği */
+    .template-tags-table th:nth-child(2),
+    .template-tags-table td:nth-child(2) {
+        width: 60%; /* Açıklama sütunu genişliği */
+    }
+    
+    .template-tags-table th {
+        background-color: #f5f5f5;
+        font-weight: 600;
+    }
+    
+    .template-tags-table td code {
+        display: inline-block;
+        background-color: #f5f5f5;
+        padding: 3px 6px;
+        border-radius: 3px;
+        font-family: Consolas, Monaco, 'Andale Mono', monospace;
+        color: #e74c3c;
+        word-break: break-word;
+        max-width: 100%; /* Kod bloklarının genişliği en fazla kapsayıcı genişliği kadar olur */
+    }
+    
+    .template-tags-table tr:hover {
+        background-color: #f9f9f9;
+    }
+    
+    .template-tags-table td[colspan="2"] {
+        background-color: #f1f1f1;
+        font-weight: 600;
+        text-align: center;
+    }
+    
+    @media (max-width: 768px) {
+        .template-tags-table {
+            table-layout: auto; /* Küçük ekranlarda otomatik tablo düzenine geç */
+        }
+        
+        .template-tags-table th:first-child,
+        .template-tags-table td:first-child {
+            width: auto; /* Mobil görünümde otomatik genişlik */
+            min-width: 120px;
+        }
+        
+        .template-tags-table th,
+        .template-tags-table td {
+            padding: 8px 10px;
+        }
+        
+        .template-tags-table {
+            font-size: 14px;
+        }
+    }
+</style></code></pre>
 </body>
 </html>
